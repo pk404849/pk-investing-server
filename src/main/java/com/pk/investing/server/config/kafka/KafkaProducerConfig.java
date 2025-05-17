@@ -1,4 +1,4 @@
-package com.pk.investing.server.config;
+package com.pk.investing.server.config.kafka;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
