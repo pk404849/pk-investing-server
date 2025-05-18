@@ -75,4 +75,11 @@ public class DeltaOptionChainDataQuotesModel {
 		this.mark_iv = mark_iv;
 	}
 
+	@Override
+	public String toString() {
+		return "DeltaOptionChainDataQuotesModel [ask_iv=" + ask_iv + ", ask_size=" + ask_size + ", best_ask=" + best_ask
+				+ ", best_bid=" + best_bid + ", bid_iv=" + bid_iv + ", bid_size=" + bid_size + ", impact_mid_price="
+				+ impact_mid_price + ", mark_iv=" + mark_iv + "]";
+	}
+
 }

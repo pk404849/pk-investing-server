@@ -57,4 +57,10 @@ public class DeltaOptionChainDataGreeksModel {
 		this.vega = vega;
 	}
 
+	@Override
+	public String toString() {
+		return "DeltaOptionChainDataGreeksModel [delta=" + delta + ", gamma=" + gamma + ", rho=" + rho + ", spot="
+				+ spot + ", theta=" + theta + ", vega=" + vega + "]";
+	}
+
 }

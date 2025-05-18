@@ -1,6 +1,7 @@
 package com.pk.investing.server.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class DeltaOptionChainDataModel {
 
@@ -37,6 +38,7 @@ public class DeltaOptionChainDataModel {
 	private DeltaOptionChainDataGreeksModel greeks;
 	private DeltaOptionChainDataPriceBandModel price_band;
 	private DeltaOptionChainDataQuotesModel quotes;
+	private LocalDateTime createdTime;
 
 	public Double getClose() {
 		return close;
@@ -284,6 +286,29 @@ public class DeltaOptionChainDataModel {
 
 	public void setQuotes(DeltaOptionChainDataQuotesModel quotes) {
 		this.quotes = quotes;
+	}
+
+	public LocalDateTime getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(LocalDateTime createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	@Override
+	public String toString() {
+		return "DeltaOptionChainDataModel [close=" + close + ", contract_type=" + contract_type + ", description="
+				+ description + ", high=" + high + ", initial_margin=" + initial_margin + ", low=" + low
+				+ ", mark_change_24h=" + mark_change_24h + ", mark_price=" + mark_price + ", mark_vol=" + mark_vol
+				+ ", oi=" + oi + ", oi_change_usd_6h=" + oi_change_usd_6h + ", oi_contracts=" + oi_contracts
+				+ ", oi_value=" + oi_value + ", oi_value_symbol=" + oi_value_symbol + ", oi_value_usd=" + oi_value_usd
+				+ ", open=" + open + ", product_id=" + product_id + ", size=" + size + ", spot_price=" + spot_price
+				+ ", strike_price=" + strike_price + ", symbol=" + symbol + ", tick_size=" + tick_size + ", timestamp="
+				+ timestamp + ", turnover=" + turnover + ", turnover_symbol=" + turnover_symbol + ", turnover_usd="
+				+ turnover_usd + ", underlying_asset_symbol=" + underlying_asset_symbol + ", volume=" + volume
+				+ ", greeks=" + greeks + ", price_band=" + price_band + ", quotes=" + quotes + ", createdTime="
+				+ createdTime + "]";
 	}
 
 }

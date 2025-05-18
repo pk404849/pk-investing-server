@@ -13,7 +13,8 @@ import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.model.DeltaOptionChainModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
 import com.pk.investing.server.service.kafka.KafkaProducerService;
-import com.pk.investing.server.util.DeltaOptionChainUtil;
+import com.pk.investing.server.util.DeltaOptionChainConstant;
+import com.pk.investing.server.util.Util;
 
 @Service
 public class DeltaOptionChainServiceScheduler {
@@ -27,12 +28,12 @@ public class DeltaOptionChainServiceScheduler {
 	@Autowired
 	private DeltaOptionChainService deltaOptionChainService;
 
-	@Scheduled(fixedDelay = 11000)
+	@Scheduled(fixedDelay = 600000)
 	public List<DeltaOptionChainDataModel> fetchDeltaOptionChainData() {
-		String deltaApiBaseUrl = DeltaOptionChainUtil.DELTA_OPTION_CHAIN_API_BASE_URL;
-		String contractType = DeltaOptionChainUtil.CONTRACT_TYPE;
-		String symbol = DeltaOptionChainUtil.UNDERLYING_ASSET_SYMBOLS;
-		String expiryDate = DeltaOptionChainUtil.EXPIRY_DATES;
+		String deltaApiBaseUrl = DeltaOptionChainConstant.DELTA_OPTION_CHAIN_API_BASE_URL;
+		String contractType = DeltaOptionChainConstant.CONTRACT_TYPE;
+		String symbol = DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
+		String expiryDate = DeltaOptionChainConstant.EXPIRY_DATES;
 
 		String deltaApiUrl = deltaApiBaseUrl + "?" + "contract_type=" + contractType + "&"
 				+ "underlying_asset_symbols=" + symbol + "&" + "expiry_date=" + expiryDate;
