@@ -10,6 +10,10 @@ import com.pk.investing.server.model.DeltaOptionChainDataModel;
 public interface DeltaOptionChainService {
 
 	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainData(LocalDateTime localDateTime);
+	
 	public List<DeltaOptionChainData> saveDeltaOptionChainData(List<DeltaOptionChainData> deltaOptionChainDataList);
+	
+	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainCurrentData(String currency,
+			String strToDateTime);
 	
 }

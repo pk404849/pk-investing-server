@@ -14,7 +14,6 @@ import com.pk.investing.server.model.DeltaOptionChainModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
 import com.pk.investing.server.service.kafka.KafkaProducerService;
 import com.pk.investing.server.util.DeltaOptionChainConstant;
-import com.pk.investing.server.util.Util;
 
 @Service
 public class DeltaOptionChainServiceScheduler {
@@ -28,15 +27,15 @@ public class DeltaOptionChainServiceScheduler {
 	@Autowired
 	private DeltaOptionChainService deltaOptionChainService;
 
-	@Scheduled(fixedDelay = 600000)
+	@Scheduled(fixedDelay = 10000)
 	public List<DeltaOptionChainDataModel> fetchDeltaOptionChainData() {
 		String deltaApiBaseUrl = DeltaOptionChainConstant.DELTA_OPTION_CHAIN_API_BASE_URL;
 		String contractType = DeltaOptionChainConstant.CONTRACT_TYPE;
-		String symbol = DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
+		String currency = DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
 		String expiryDate = DeltaOptionChainConstant.EXPIRY_DATES;
 
 		String deltaApiUrl = deltaApiBaseUrl + "?" + "contract_type=" + contractType + "&"
-				+ "underlying_asset_symbols=" + symbol + "&" + "expiry_date=" + expiryDate;
+				+ "underlying_asset_symbols=" + currency + "&" + "expiry_date=" + expiryDate;
 		DeltaOptionChainModel deltaOptionChainModel = restTemplate.getForObject(deltaApiUrl,
 				DeltaOptionChainModel.class);
 		List<DeltaOptionChainDataModel> deltaOptionChainDataModelList = deltaOptionChainModel.getResult();

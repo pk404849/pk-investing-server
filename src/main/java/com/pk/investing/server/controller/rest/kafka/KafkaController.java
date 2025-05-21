@@ -31,8 +31,9 @@ public class KafkaController {
     }
     @GetMapping("/fetch-data")
     public ResponseEntity<?> fetchDeltaOptionChainData(){
-    	List<DeltaOptionChainDataModel> deltaOptionChainData = deltaOptionChainServiceScheduler.fetchDeltaOptionChainData();
-    	
-    	return ResponseEntity.ok(deltaOptionChainData);
+//    	List<DeltaOptionChainDataModel> deltaOptionChainData = deltaOptionChainServiceScheduler.fetchDeltaOptionChainData();
+//    	
+//    	return ResponseEntity.ok(deltaOptionChainData);
+    	return null;
     }
 }

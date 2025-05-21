@@ -13,12 +13,17 @@ import com.pk.investing.server.converter.ApiConverter;
 import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
+import com.pk.investing.server.service.scheduler.DeltaOptionChainServiceScheduler;
+import com.pk.investing.server.util.DeltaOptionChainConstant;
 
 @Service
 public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 
 	@Autowired
 	private DeltaOptionChainBusiness deltaOptionChainBusiness;
+	
+//	@Autowired
+//	private DeltaOptionChainServiceScheduler serviceScheduler;
 	
 	@Override
 	public List<DeltaOptionChainData> saveDeltaOptionChainData(List<DeltaOptionChainData> deltaOptionChainDataList) {
@@ -34,6 +39,19 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 			dataModelMap = dataModelList.stream().collect(Collectors.groupingBy(d->d.getDescription()));
 		}
 		return dataModelMap;
+	}
+
+	@Override
+	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainCurrentData(String currency,
+			String strDateTime) {
+		DeltaOptionChainConstant.EXPIRY_DATES=strDateTime;
+		DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS = currency;
+		//List<DeltaOptionChainDataModel> modelDataList = serviceScheduler.fetchDeltaOptionChainData();
+//		if(modelDataList != null & !modelDataList.isEmpty()) {
+//			Map<String, List<DeltaOptionChainDataModel>> modelDataMap = modelDataList.stream().collect(Collectors.groupingBy(d->d.getDescription()));
+//			return modelDataMap;
+//		}
+		return null;
 	}
 
 }

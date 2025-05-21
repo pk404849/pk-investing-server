@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pk.investing.server.controller.BaseController;
 import com.pk.investing.server.controller.ResponseMessage;
-import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
 import com.pk.investing.server.util.Util;
@@ -34,4 +33,16 @@ public class DeltaOptionChainController extends BaseController{
 		response.setStatus(true);
 		return sendResponse(response);
 	}
+	
+	@GetMapping(value = "/fetch-delta-option-chain-current-data")
+	public ResponseEntity<?> fetchDeltaOptionChainCurrentData(
+			@RequestParam("currency") String currency,
+			@RequestParam("strDateTime") String strDateTime){
+		Map<String, List<DeltaOptionChainDataModel>> dataModelMap= deltaOptionChainService.fetchDeltaOptionChainCurrentData(currency,strDateTime);
+		ResponseMessage response = new ResponseMessage();
+		response.setData(dataModelMap);
+		response.setStatus(true);
+		return sendResponse(response);
+	}
+	
 }
