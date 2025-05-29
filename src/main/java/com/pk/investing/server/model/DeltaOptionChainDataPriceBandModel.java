@@ -1,7 +1,11 @@
 package com.pk.investing.server.model;
 
-public class DeltaOptionChainDataPriceBandModel {
+import java.io.Serializable;
 
+public class DeltaOptionChainDataPriceBandModel implements Serializable{
+
+	private static final long serialVersionUID = 6739056367870459824L;
+	
 	private String lower_limit;
 	private String upper_limit;
 

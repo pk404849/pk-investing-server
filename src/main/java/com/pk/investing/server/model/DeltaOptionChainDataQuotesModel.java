@@ -1,7 +1,11 @@
 package com.pk.investing.server.model;
 
-public class DeltaOptionChainDataQuotesModel {
+import java.io.Serializable;
 
+public class DeltaOptionChainDataQuotesModel implements Serializable{
+
+	private static final long serialVersionUID = 4916557927718796636L;
+	
 	private String ask_iv;
 	private String ask_size;
 	private String best_ask;

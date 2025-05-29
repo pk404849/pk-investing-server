@@ -1,10 +1,13 @@
 package com.pk.investing.server.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDateTime;
 
-public class DeltaOptionChainDataModel {
+public class DeltaOptionChainDataModel implements Serializable{
 
+	private static final long serialVersionUID = 5404174482556234518L;
+	
 	private Double close;
 	private String contract_type;
 	private String description;

@@ -1,21 +1,25 @@
 package com.pk.investing.server.service.kafka;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import com.pk.investing.server.model.DeltaOptionChainDataModel;
+import com.pk.investing.server.model.OptionDataModel;
 
 @Service
 public class KafkaProducerService {
 
-	private static final String KAFKA_TOPIC = "kafka_topic";
+	private final static String KAFKA_TOPIC = "kafka_topic";
 
-	private final KafkaTemplate<String, String> kafkaTemplate;
+	@Autowired
+	private KafkaTemplate<String, List<OptionDataModel>> kafkaTemplate;
 
-	public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate) {
-		this.kafkaTemplate = kafkaTemplate;
-	}
-
-	public void sendMessage(String message) {
-		kafkaTemplate.send(KAFKA_TOPIC, message);
-		System.out.println("Message sent: " + message);
+	public void sendMessage(List<OptionDataModel> modelList) {
+		kafkaTemplate.send(KAFKA_TOPIC, modelList);
+		System.out.println("Message sent modelList: " + modelList);
 	}
 }

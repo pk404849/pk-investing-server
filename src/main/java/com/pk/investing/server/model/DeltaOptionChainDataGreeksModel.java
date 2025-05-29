@@ -1,7 +1,11 @@
 package com.pk.investing.server.model;
 
-public class DeltaOptionChainDataGreeksModel {
+import java.io.Serializable;
 
+public class DeltaOptionChainDataGreeksModel implements Serializable{
+
+	private static final long serialVersionUID = -2407028309843090997L;
+	
 	private String delta;
 	private String gamma;
 	private String rho;

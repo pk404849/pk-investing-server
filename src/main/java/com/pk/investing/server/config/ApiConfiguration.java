@@ -10,4 +10,6 @@ public class ApiConfiguration {
 	RestTemplate getRestclient() {
 		return new RestTemplate();
 	}
+	
+	
 }
