@@ -2,7 +2,10 @@ package com.pk.investing.server.converter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.entity.DeltaOptionChainDataGreeks;
@@ -12,7 +15,8 @@ import com.pk.investing.server.model.DeltaOptionChainDataGreeksModel;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.model.DeltaOptionChainDataPriceBandModel;
 import com.pk.investing.server.model.DeltaOptionChainDataQuotesModel;
-import com.pk.investing.server.util.Util;
+import com.pk.investing.server.model.OptionDataModel;
+import com.pk.investing.server.util.DeltaOptionChainUtil;
 
 public class ApiConverter {
 
@@ -62,8 +66,8 @@ public class ApiConverter {
 		data.setTurnover_usd(dataModel.getTurnover_usd());
 		data.setUnderlying_asset_symbol(dataModel.getUnderlying_asset_symbol());
 		data.setVolume(dataModel.getVolume());
-		String dateTimeToString = Util.localDateTimeToString();
-		LocalDateTime strToDateTime = Util.strToDateTime(dateTimeToString);
+		String dateTimeToString = DeltaOptionChainUtil.localDateTimeToString();
+		LocalDateTime strToDateTime = DeltaOptionChainUtil.strToDateTime(dateTimeToString);
 		data.setCreatedTime(strToDateTime);
 		DeltaOptionChainDataGreeksModel deltaOptionChainDataGreeksModel = dataModel.getGreeks();
 		if (deltaOptionChainDataGreeksModel != null) {
@@ -223,5 +227,85 @@ public class ApiConverter {
 		dataQuotesModel.setImpact_mid_price(dataQuotes.getImpact_mid_price());
 		dataQuotesModel.setMark_iv(dataQuotes.getMark_iv());
 		return dataQuotesModel;
+	}
+	
+	public static List<OptionDataModel> getOptionDataModelList (List<DeltaOptionChainDataModel> dataModelList) {
+		if(dataModelList != null && !dataModelList.isEmpty()) {
+			Map<String, List<DeltaOptionChainDataModel>> dataMap = dataModelList.stream()
+					.collect(Collectors.groupingBy(s -> s.getStrike_price()));
+			List<OptionDataModel> optionDataModelList = new ArrayList<OptionDataModel>();
+			for (Map.Entry<String, List<DeltaOptionChainDataModel>> map : dataMap.entrySet()) {
+				List<DeltaOptionChainDataModel> value = map.getValue();
+				String key = map.getKey();
+				OptionDataModel optionDataModel = getOptionDataModelObject(key, value);
+				if(optionDataModel != null) {
+					optionDataModelList.add(optionDataModel);
+				}
+			}
+			List<OptionDataModel> sortedModelList = optionDataModelList.stream()
+					.sorted(Comparator.comparing(OptionDataModel::getStrikePrice)).collect(Collectors.toList());
+			return sortedModelList;
+		}
+		return  null;
+	}
+	
+	public static OptionDataModel getOptionDataModelObject(String key, List<DeltaOptionChainDataModel> valueList) {
+		if(valueList != null && !valueList.isEmpty()) {
+			OptionDataModel optionDataModel = new OptionDataModel();
+			for (DeltaOptionChainDataModel data : valueList) {
+				if (key.equalsIgnoreCase(data.getStrike_price())) {
+					optionDataModel.setCurrency(data.getOi_value_symbol());
+					if (data.getDescription().contains("Put")) {
+						data.setQuotes(roundCalcualtionIv(data.getQuotes()));
+						data.setGreeks(roundCalcualtionGreeks(data.getGreeks()));
+						data.setOi_value_usd(roundCalcualtionOI(data.getOi_value_usd()));
+						optionDataModel.setPutData(data);
+					} else if (data.getDescription().contains("Call")) {
+						data.setQuotes(roundCalcualtionIv(data.getQuotes()));
+						data.setGreeks(roundCalcualtionGreeks(data.getGreeks()));
+						data.setOi_value_usd(roundCalcualtionOI(data.getOi_value_usd()));
+						optionDataModel.setCallData(data);
+					}
+					optionDataModel.setStrikePrice(key);
+				}
+			}
+			return optionDataModel;
+		}
+		return null;
+	}
+	private static String roundCalcualtionOI(String getOi_value_usd) {
+		return getOi_value_usd.split("\\.")[0];
+		 
+	}
+	private static DeltaOptionChainDataQuotesModel roundCalcualtionIv(DeltaOptionChainDataQuotesModel quotesModel) {
+		quotesModel.setMark_iv(quotesModel.getMark_iv().substring(2, 4));
+		return quotesModel;
+	}
+
+	private static DeltaOptionChainDataGreeksModel roundCalcualtionGreeks(DeltaOptionChainDataGreeksModel greeksDataModel) {
+		if(greeksDataModel.getDelta().contains("-")) {
+			greeksDataModel.setDelta(greeksDataModel.getDelta().substring(0,5));
+		}else {
+			greeksDataModel.setDelta(greeksDataModel.getDelta().substring(0,4));
+		}
+		
+		if(greeksDataModel.getTheta().contains("-")) {
+			greeksDataModel.setTheta(greeksDataModel.getTheta().substring(0,5));
+		}else {
+			greeksDataModel.setTheta(greeksDataModel.getTheta().substring(0,4));
+		}
+		
+		if(greeksDataModel.getGamma().contains("-")) {
+			greeksDataModel.setGamma(greeksDataModel.getGamma().substring(0,5));
+		}else {
+			greeksDataModel.setGamma(greeksDataModel.getGamma().substring(0,4));
+		}
+		
+		if(greeksDataModel.getVega().contains("-")) {
+			greeksDataModel.setVega(greeksDataModel.getVega().substring(0,5));
+		}else {
+			greeksDataModel.setVega(greeksDataModel.getVega().substring(0,4));
+		}
+		return greeksDataModel;
 	}
 }

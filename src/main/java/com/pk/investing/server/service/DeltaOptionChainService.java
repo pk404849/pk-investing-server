@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
+import com.pk.investing.server.model.OptionDataModel;
 
 public interface DeltaOptionChainService {
 
@@ -13,7 +14,6 @@ public interface DeltaOptionChainService {
 	
 	public List<DeltaOptionChainData> saveDeltaOptionChainData(List<DeltaOptionChainData> deltaOptionChainDataList);
 	
-	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainCurrentData(String currency,
-			String strToDateTime);
+	public List<OptionDataModel> fetchDeltaOptionChainCurrentData(String currency, String strToDateTime);
 	
 }

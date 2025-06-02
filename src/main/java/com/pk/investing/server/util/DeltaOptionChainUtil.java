@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Util {
+public class DeltaOptionChainUtil {
 
 	public static Boolean isEmpty(String str) {
 		return str == null || str.isEmpty() ? true : false;
@@ -26,9 +26,23 @@ public class Util {
 
 	public static String localDateTimeToString() {
 		LocalDateTime localDateTime = LocalDateTime.now();
-		System.out.println("datetime : " + localDateTime);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String dateTime = localDateTime.format(formatter);
 		return dateTime;
 	}
+	
+	public static String localDateToString() {
+		LocalDate localDate = LocalDate.now();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    String formattedDate = localDate.format(formatter);
+		return formattedDate;
+	}
+
+	public static String localDateToString(LocalDate localDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+	    String formattedDate = localDate.format(formatter);
+		return formattedDate;
+	}
+	
+	
 }

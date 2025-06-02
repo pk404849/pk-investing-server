@@ -1,5 +1,6 @@
 package com.pk.investing.server.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,12 @@ import com.pk.investing.server.converter.ApiConverter;
 import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.model.DeltaOptionChainModel;
+import com.pk.investing.server.model.OptionDataModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
 import com.pk.investing.server.service.kafka.KafkaConsumerService;
 import com.pk.investing.server.service.scheduler.DeltaOptionChainServiceScheduler;
 import com.pk.investing.server.util.DeltaOptionChainConstant;
+import com.pk.investing.server.util.DeltaOptionChainUtil;
 
 @Service
 public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
@@ -51,15 +54,27 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 	}
 
 	@Override
-	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainCurrentData(String currency,
-			String strDateTime) {
-		DeltaOptionChainConstant.EXPIRY_DATES = strDateTime;
-		DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS = currency;
+	public List<OptionDataModel> fetchDeltaOptionChainCurrentData(String currency, String strDateTime) {
+	DeltaOptionChainConstant.EXPIRY_DATES = DeltaOptionChainUtil.localDateToString(DeltaOptionChainUtil.strToDate(strDateTime));;
+		if(currency== null || currency.isEmpty()) {
+			currency=DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
+		}else {
+			DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS = currency;
+		}
 		String deltaApiBaseUrl = DeltaOptionChainConstant.DELTA_OPTION_CHAIN_API_BASE_URL;
 		String contractType = DeltaOptionChainConstant.CONTRACT_TYPE;
 		// String currency = DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
-		String expiryDate = strDateTime;
-
+		String expiryDate = DeltaOptionChainConstant.EXPIRY_DATES;
+		if(expiryDate == null || expiryDate.isEmpty()) {
+			expiryDate = DeltaOptionChainUtil.localDateToString();
+			LocalDateTime localDateTime = LocalDateTime.now();
+			if(localDateTime.getHour()>=18) {
+				LocalDate localDate = LocalDate.now();
+				LocalDate plusDays = localDate.plusDays(1);
+				expiryDate = DeltaOptionChainUtil.localDateToString(plusDays);
+			}
+			DeltaOptionChainConstant.EXPIRY_DATES=expiryDate;
+		}
 		String deltaApiUrl = deltaApiBaseUrl + "?" + "contract_type=" + contractType + "&" + "underlying_asset_symbols="
 				+ currency + "&" + "expiry_date=" + expiryDate;
 		DeltaOptionChainModel deltaOptionChainModel = restTemplate.getForObject(deltaApiUrl,
@@ -67,13 +82,14 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 		if (deltaOptionChainModel != null) {
 			List<DeltaOptionChainDataModel> modelList = deltaOptionChainModel.getResult();
 			if (modelList != null && !modelList.isEmpty()) {
-				Map<String, List<DeltaOptionChainDataModel>> dataMap = modelList.stream()
-						.collect(Collectors.groupingBy(data -> data.getDescription()));
-				return dataMap;
+				List<OptionDataModel> sortedModelLost= ApiConverter.getOptionDataModelList(modelList);
+				return sortedModelLost;
 			}
 		}
-
 		return null;
 	}
 
+	public void method() {
+		System.out.println("method");
+	}
 }
