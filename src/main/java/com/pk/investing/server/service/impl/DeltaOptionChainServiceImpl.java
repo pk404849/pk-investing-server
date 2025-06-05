@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.pk.investing.server.business.DeltaOptionChainBusiness;
 import com.pk.investing.server.converter.ApiConverter;
-import com.pk.investing.server.entity.DeltaOptionChainData;
+//import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.model.DeltaOptionChainModel;
 import com.pk.investing.server.model.OptionDataModel;
@@ -36,22 +36,22 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Override
-	public List<DeltaOptionChainData> saveDeltaOptionChainData(List<DeltaOptionChainData> deltaOptionChainDataList) {
-		return deltaOptionChainBusiness.saveDeltaOptionChainData(deltaOptionChainDataList);
-	}
+//	@Override
+//	public List<DeltaOptionChainData> saveDeltaOptionChainData(List<DeltaOptionChainData> deltaOptionChainDataList) {
+//		return deltaOptionChainBusiness.saveDeltaOptionChainData(deltaOptionChainDataList);
+//	}
 
-	@Override
-	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainData(LocalDateTime localDateTime) {
-		Map<String, List<DeltaOptionChainDataModel>> dataModelMap = null;
-		List<DeltaOptionChainData> dataList = deltaOptionChainBusiness.fetchDeltaOptionChainData(localDateTime);
-		if (dataList != null && !dataList.isEmpty()) {
-			List<DeltaOptionChainDataModel> dataModelList = ApiConverter
-					.getDeltaOptionChainDataModelListObject(dataList);
-			dataModelMap = dataModelList.stream().collect(Collectors.groupingBy(d -> d.getDescription()));
-		}
-		return dataModelMap;
-	}
+//	@Override
+//	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainData(LocalDateTime localDateTime) {
+//		Map<String, List<DeltaOptionChainDataModel>> dataModelMap = null;
+//		List<DeltaOptionChainData> dataList = deltaOptionChainBusiness.fetchDeltaOptionChainData(localDateTime);
+//		if (dataList != null && !dataList.isEmpty()) {
+//			List<DeltaOptionChainDataModel> dataModelList = ApiConverter
+//					.getDeltaOptionChainDataModelListObject(dataList);
+//			dataModelMap = dataModelList.stream().collect(Collectors.groupingBy(d -> d.getDescription()));
+//		}
+//		return dataModelMap;
+//	}
 
 	@Override
 	public List<OptionDataModel> fetchDeltaOptionChainCurrentData(String currency, String strDateTime) {
@@ -91,5 +91,11 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 
 	public void method() {
 		System.out.println("method");
+	}
+
+	@Override
+	public Map<String, List<DeltaOptionChainDataModel>> fetchDeltaOptionChainData(LocalDateTime localDateTime) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.pk.investing.server.converter.ApiConverter;
-import com.pk.investing.server.entity.DeltaOptionChainData;
+//import com.pk.investing.server.entity.DeltaOptionChainData;
 import com.pk.investing.server.model.DeltaOptionChainDataGreeksModel;
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.model.DeltaOptionChainDataQuotesModel;
@@ -39,7 +39,7 @@ public class DeltaOptionChainServiceScheduler {
 	@Autowired
 	private DeltaOptionChainService deltaOptionChainService;
 
-	@Scheduled(fixedDelay = 10000)
+	//@Scheduled(fixedDelay = 10000)
 	public void fetchDeltaOptionChainData() {
 		String deltaApiBaseUrl = DeltaOptionChainConstant.DELTA_OPTION_CHAIN_API_BASE_URL;
 		String contractType = DeltaOptionChainConstant.CONTRACT_TYPE;
