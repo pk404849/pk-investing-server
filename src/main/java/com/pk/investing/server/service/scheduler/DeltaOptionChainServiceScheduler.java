@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -38,8 +39,11 @@ public class DeltaOptionChainServiceScheduler {
 
 	@Autowired
 	private DeltaOptionChainService deltaOptionChainService;
+	
+	@Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
-	//@Scheduled(fixedDelay = 10000)
+	@Scheduled(fixedDelay = 10000)
 	public void fetchDeltaOptionChainData() {
 		String deltaApiBaseUrl = DeltaOptionChainConstant.DELTA_OPTION_CHAIN_API_BASE_URL;
 		String contractType = DeltaOptionChainConstant.CONTRACT_TYPE;
@@ -71,7 +75,8 @@ public class DeltaOptionChainServiceScheduler {
 //			Map<String, List<DeltaOptionChainDataModel>> dataModelMap = deltaOptionChainDataModelList.stream()
 //					.collect(Collectors.groupingBy(data -> data.getDescription()));
 			List<OptionDataModel> sortedModelLost= ApiConverter.getOptionDataModelList(deltaOptionChainDataModelList);
-			kafkaProducerService.sendMessage(sortedModelLost);
+			//kafkaProducerService.sendMessage(sortedModelLost);
+			 messagingTemplate.convertAndSend("/topic/all-options", sortedModelLost);
 		}
 	}
 }
