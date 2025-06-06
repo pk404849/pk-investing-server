@@ -21,7 +21,7 @@ import com.pk.investing.server.util.DeltaOptionChainUtil;
 
 @RestController
 @RequestMapping(value = "/delta-option-chain")
-@CrossOrigin(value = "http://localhost:4200")
+@CrossOrigin(value = "http://172.31.37.139:4200")
 public class DeltaOptionChainController extends BaseController {
 
 	@Autowired
