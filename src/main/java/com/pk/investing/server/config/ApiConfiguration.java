@@ -19,7 +19,7 @@ public class ApiConfiguration {
 	        @Override
 	        public void addCorsMappings(CorsRegistry registry) {
 	            registry.addMapping("/**")
-	                .allowedOrigins("http://13.53.206.50:4200")
+	                .allowedOrigins("http://172.31.37.139:4200")
 	                .allowedMethods("GET", "POST", "PUT", "DELETE")
 	                .allowedHeaders("*");
 	        }

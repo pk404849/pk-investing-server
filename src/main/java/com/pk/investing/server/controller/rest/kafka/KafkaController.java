@@ -14,7 +14,7 @@ import com.pk.investing.server.service.kafka.KafkaProducerService;
 import com.pk.investing.server.service.scheduler.DeltaOptionChainServiceScheduler;
 
 @RestController
-@CrossOrigin(value = "http://13.53.206.50:4200")
+@CrossOrigin(value = "http://172.31.37.139:4200")
 public class KafkaController {
 
     private final KafkaProducerService kafkaProducerService;
