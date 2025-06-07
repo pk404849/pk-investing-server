@@ -55,7 +55,10 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 
 	@Override
 	public List<OptionDataModel> fetchDeltaOptionChainCurrentData(String currency, String strDateTime) {
-	DeltaOptionChainConstant.EXPIRY_DATES = DeltaOptionChainUtil.localDateToString(DeltaOptionChainUtil.strToDate(strDateTime));;
+		if(strDateTime ==null || strDateTime.isEmpty()) {
+			strDateTime = DeltaOptionChainUtil.localDateToString();
+		}
+		DeltaOptionChainConstant.EXPIRY_DATES = strDateTime;
 		if(currency== null || currency.isEmpty()) {
 			currency=DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
 		}else {
@@ -65,7 +68,7 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 		String contractType = DeltaOptionChainConstant.CONTRACT_TYPE;
 		// String currency = DeltaOptionChainConstant.UNDERLYING_ASSET_SYMBOLS;
 		String expiryDate = DeltaOptionChainConstant.EXPIRY_DATES;
-		if(expiryDate == null || expiryDate.isEmpty()) {
+		if(expiryDate != null && !expiryDate.isEmpty()) {
 			expiryDate = DeltaOptionChainUtil.localDateToString();
 			LocalDateTime localDateTime = LocalDateTime.now();
 			if(localDateTime.getHour()>=18) {
