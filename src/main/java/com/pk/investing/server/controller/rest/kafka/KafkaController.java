@@ -10,21 +10,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pk.investing.server.model.DeltaOptionChainDataModel;
-import com.pk.investing.server.service.kafka.KafkaProducerService;
+//import com.pk.investing.server.service.kafka.KafkaProducerService;
 import com.pk.investing.server.service.scheduler.DeltaOptionChainServiceScheduler;
 
 @RestController
-@CrossOrigin(value = "http://172.31.37.139:4200")
 public class KafkaController {
 
-    private final KafkaProducerService kafkaProducerService;
+//    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
     private DeltaOptionChainServiceScheduler deltaOptionChainServiceScheduler;
     
-    public KafkaController(KafkaProducerService kafkaProducerService) {
-        this.kafkaProducerService = kafkaProducerService;
-    }
+//    public KafkaController(KafkaProducerService kafkaProducerService) {
+//        this.kafkaProducerService = kafkaProducerService;
+//    }
 
     @GetMapping("/send")
     public String sendMessage(@RequestParam String message) {

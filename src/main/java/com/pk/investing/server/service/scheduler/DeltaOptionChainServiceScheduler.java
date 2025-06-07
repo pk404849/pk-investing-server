@@ -22,7 +22,7 @@ import com.pk.investing.server.model.DeltaOptionChainDataQuotesModel;
 import com.pk.investing.server.model.DeltaOptionChainModel;
 import com.pk.investing.server.model.OptionDataModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
-import com.pk.investing.server.service.kafka.KafkaProducerService;
+//import com.pk.investing.server.service.kafka.KafkaProducerService;
 import com.pk.investing.server.util.DeltaOptionChainConstant;
 import com.pk.investing.server.util.DeltaOptionChainUtil;
 
@@ -34,8 +34,8 @@ public class DeltaOptionChainServiceScheduler {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Autowired
-	private KafkaProducerService kafkaProducerService;
+//	@Autowired
+//	private KafkaProducerService kafkaProducerService;
 
 	@Autowired
 	private DeltaOptionChainService deltaOptionChainService;
@@ -77,6 +77,7 @@ public class DeltaOptionChainServiceScheduler {
 			List<OptionDataModel> sortedModelLost= ApiConverter.getOptionDataModelList(deltaOptionChainDataModelList);
 			//kafkaProducerService.sendMessage(sortedModelLost);
 			 messagingTemplate.convertAndSend("/topic/all-options", sortedModelLost);
+			 System.out.println("Message send => "+sortedModelLost);
 		}
 	}
 }

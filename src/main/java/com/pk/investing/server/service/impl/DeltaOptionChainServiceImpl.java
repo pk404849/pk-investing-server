@@ -17,7 +17,7 @@ import com.pk.investing.server.model.DeltaOptionChainDataModel;
 import com.pk.investing.server.model.DeltaOptionChainModel;
 import com.pk.investing.server.model.OptionDataModel;
 import com.pk.investing.server.service.DeltaOptionChainService;
-import com.pk.investing.server.service.kafka.KafkaConsumerService;
+//import com.pk.investing.server.service.kafka.KafkaConsumerService;
 import com.pk.investing.server.service.scheduler.DeltaOptionChainServiceScheduler;
 import com.pk.investing.server.util.DeltaOptionChainConstant;
 import com.pk.investing.server.util.DeltaOptionChainUtil;
@@ -30,8 +30,8 @@ public class DeltaOptionChainServiceImpl implements DeltaOptionChainService {
 
 //	@Autowired
 //	private DeltaOptionChainServiceScheduler serviceScheduler;
-	@Autowired
-	private KafkaConsumerService kafkaConsumerService;
+//	@Autowired
+//	private KafkaConsumerService kafkaConsumerService;
 
 	@Autowired
 	private RestTemplate restTemplate;
